@@ -37,3 +37,27 @@ This document details the process and considerations involved in porting Batman 
 
 These notes should be updated as the project progresses, documenting any further changes or challenges encountered during the porting process.
 
+## Sega Saturn Port - Porting Notes
+
+### Build System Implementation
+
+To streamline the development and deployment process for the Sega Saturn port of Batman Returns, a comprehensive build system was implemented using a `Makefile` and a custom `linker_script.ld`.
+
+### Makefile Details
+
+- **Compilation Process**: The `Makefile` automates the assembly of SH-2 and Z80 source files into object files, links them into a final binary, and then packages this binary into an ISO format suitable for Sega Saturn emulators or hardware.
+- **Source Management**: Source files are organized into SH-2 assembly, Z80 assembly, and common includes, ensuring modularity and ease of maintenance.
+- **Final Output**: The compiled binary and ISO image are placed in the `bin/` directory, making it easy to access and test the final build.
+
+### Linker Script Customization
+
+- **Memory Allocation**: The `linker_script.ld` is tailored to map the program's sections (`.text`, `.data`, `.bss`, `.z80`, and `.stack`) into the Sega Saturn's memory regions.
+- **SH-2 and Z80 Code Separation**: The linker script ensures that SH-2 code is placed in Work RAM, while Z80 code is allocated in Sound RAM, reflecting the architecture of the Sega Saturn.
+- **Stack Allocation**: A dedicated section for the stack is allocated in Work RAM, ensuring stable program execution.
+
+### Future Considerations
+
+- **Optimization**: Further refinement of the linker script may be necessary to optimize memory usage and improve performance.
+- **Custom Build Tools**: As the project progresses, custom build tools or scripts may be developed to automate additional tasks or to handle complex asset conversions.
+
+These updates to the build system and linker script are crucial for ensuring a smooth development process and successful deployment on Sega Saturn hardware.
