@@ -32,3 +32,36 @@ The project is organized into several directories to manage the different aspect
 - **common/macros.inc**: Includes macros for common assembly tasks, such as flow control, bitwise operations, and memory handling.
 - **common/memory_map.inc**: Provides a detailed memory map of the Sega Saturn, including system RAM, video RAM, sound RAM, and peripheral memory addresses.
 
+## Sega Saturn Port - Design Documentation
+
+### Build System Overview
+
+The build system for the Sega Saturn port of Batman Returns has been structured to automate the compilation, linking, and packaging of the game. This system leverages a `Makefile` to manage the build process, using the SH-2 and Z80 assembly files, and a `linker_script.ld` to properly allocate memory for the different sections of the game code.
+
+### Makefile Structure
+
+- **Project Name**: The project is named `batman_returns_saturn`.
+- **Toolchain**: The build system uses `sh-elf-as` for assembling SH-2 and Z80 code, `sh-elf-ld` for linking, and `mkisofs` for generating the final ISO image.
+- **Directories**: 
+  - `src/sh2/`: Contains SH-2 assembly source files.
+  - `src/z80/`: Contains Z80 assembly source files.
+  - `src/common/`: Contains common include files like macros, constants, and data tables.
+  - `build/`: The build output directory for object files and the final binary.
+  - `bin/`: The directory where the final binary and ISO are placed.
+- **Source Files**: Lists all relevant source files from SH-2 and Z80 directories.
+- **Object Files**: Compiles source files into object files stored in the `build/` directory.
+- **Build Rules**:
+  - `all`: Compiles and links the source files, and creates the final binary and ISO.
+  - `clean`: Removes all generated files to ensure a fresh build.
+  
+### Linker Script
+
+The `linker_script.ld` is designed to map the different sections of the program into appropriate memory regions:
+
+- **`.text`**: Contains executable code, mapped to Work RAM (`WRAM`).
+- **`.data`**: Contains initialized data, also mapped to `WRAM`.
+- **`.bss`**: Contains uninitialized data, allocated in `WRAM`.
+- **`.z80`**: Allocates space for the Z80 code in `SOUND_RAM`.
+- **`.stack`**: Reserves space for the stack in `WRAM`.
+
+This setup ensures that the game code is correctly positioned in memory, making efficient use of the Sega Saturn's architecture.
